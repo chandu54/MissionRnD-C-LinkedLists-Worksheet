@@ -37,11 +37,9 @@ struct node * numberToLinkedList(int N) {
 		N = N*(-1);
 		while (N != 0)
 		{
-			x = N % 10;
+			x = N %10;
 			N = N / 10;
 			insert(x);
 		}
 		return head;
-
-	
 }
