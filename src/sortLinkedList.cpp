@@ -10,7 +10,7 @@ ERROR CASES: Return NULL for error cases.
 
 NOTES: Without using extra array or linked list.
 */
-
+struct node*SortedInsert(struct node * head, struct node *newNode);
 #include <stdio.h>
 #include<stddef.h>
 struct node {
@@ -18,47 +18,35 @@ struct node {
 	struct node *next;
 };
 struct node * sortLinkedList(struct node *head) {
-	struct node*current, *nextcurrent, *prev, *temp1, *temp;
-	temp1 = NULL;
-	if (head == NULL)
-		return NULL;
-	else
+	if (!head || !head->next)
+		return head;
+	struct node * nextcurrent = head->next;
+	struct node * result = head;
+	result->next = NULL;
+	while (nextcurrent)
 	{
-		while (temp1 != head->next)
-		{
-			current = prev = head;
-			nextcurrent = current->next;
-			while (current != temp1)
-			{
-				if (current->num > nextcurrent->num)
-				{
-					if (current ==head)
-					{
-						temp = nextcurrent;
-						nextcurrent = current;
-						current = temp;
-						head = nextcurrent;
-						prev = nextcurrent;
-					}
-					else
-					{
-						temp = nextcurrent;
-						nextcurrent = current;
-						current = temp;
-						prev->next = nextcurrent;
-						prev = nextcurrent;
-					}
-				}
-				else
-				{
-					prev = current;
-					current = current->next;
-				}
-				nextcurrent = current->next;
-			}
-			if (nextcurrent == temp1)
-				temp1 = current;
-		}
+		struct node *temp = nextcurrent;
+		nextcurrent = nextcurrent->next;
+		result = SortedInsert(result, temp);
+	}
+	return result;
+	}
+struct node*SortedInsert(struct node * head, struct node *nextnode)
+{
+	if (head == NULL || head->num >= nextnode->num)
+	{
+		nextnode->next = head;
+		head = nextnode;
 		return head;
 	}
+	struct node *tempptr = head;
+	struct node *prev = NULL;
+	while (tempptr != NULL && tempptr->num < nextnode->num)
+	{
+		prev = tempptr;
+		tempptr = tempptr->next;
+	}
+	nextnode->next = tempptr;
+	prev->next = nextnode;
+	return head;
 }

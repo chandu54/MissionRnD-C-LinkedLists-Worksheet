@@ -22,5 +22,26 @@ struct node {
 };
 
 void sll_012_sort(struct node *head){
+	struct node* current = head;
+	struct node*insertionpointer = current;
+	int temp;
+	current = current->next;
+	while (current != NULL)
+	{
+		insertionpointer = head;
+		while (insertionpointer->next != current)
+		{
+			if (insertionpointer->data > current->data)
+			{
+				temp = insertionpointer->data;
+				insertionpointer->data = current->data;
+				current->data = temp;
+			}
+			else
+				insertionpointer = insertionpointer->next;
+		}
+		current = current->next;
+	}
+
 	
 }
